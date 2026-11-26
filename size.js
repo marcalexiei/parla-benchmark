@@ -36,7 +36,7 @@ async function bundle(contents, plugins = []) {
 }
 
 const runtimes = {
-  'parla (@parlajs/react, includes core)': `export { createParla, ParlaProvider, useT, useLocale } from '@parlajs/react';`,
+  'parla (@parlajs/react, includes core)': `export { createParla, ParlaProvider, useSuspenseParla, useParla, useLocale } from '@parlajs/react';`,
   'i18next + react-i18next': `import i18next from 'i18next'; export { i18next }; export { initReactI18next, useTranslation, I18nextProvider } from 'react-i18next';`,
   'i18next + react-i18next + i18next-icu': `import i18next from 'i18next'; import ICU from 'i18next-icu'; export { i18next, ICU }; export { initReactI18next, useTranslation, I18nextProvider } from 'react-i18next';`,
   'react-intl (includes the ICU parser)': `export { createIntl, IntlProvider, useIntl, FormattedMessage } from 'react-intl';`,
