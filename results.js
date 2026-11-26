@@ -1,7 +1,9 @@
 // Runs every bench, archives the README's results under results/, writes the new ones.
 import { spawn } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { cpus } from 'node:os';
+
+import { devDependencies } from './versions.js';
 
 const run = (args) =>
   new Promise((resolve, reject) => {
@@ -19,21 +21,13 @@ const tables = [await node('size.js'), await node('types.js'), await node('memor
 await run(['node_modules/.bin/vitest', 'bench', '--run', '--reporter=json', '--outputFile.json=.tmp/bench.json']);
 tables.push(await node('summary.js'));
 
-const json = (path) => JSON.parse(readFileSync(path, 'utf8'));
-// Parla packs are all 0.0.0; the commit tells runs apart.
-const commit = existsSync('.packs/commit') ? ` (${readFileSync('.packs/commit', 'utf8').trim()})` : '';
-const versions = Object.keys(json('package.json').devDependencies).map((name) => {
-  const { version } = json(`node_modules/${name}/package.json`);
-  return `${name} ${version}${name.startsWith('@parlajs/') ? commit : ''}`;
-});
-
 const now = new Date().toISOString();
 const id = `${now.slice(0, 10)}_${now.slice(11, 16).replace(':', '')}`;
 const block = `<!-- results ${id} -->
 
 ${now.slice(0, 10)} ${now.slice(11, 16)} UTC, ${cpus()[0].model}, ${process.platform}-${process.arch}. Ratios are against Parla.
 
-Versions: ${versions.join(', ')}.
+Versions: ${devDependencies().join(', ')}.
 
 ${tables.map((t) => t.trim().replaceAll(/^## /gm, '### ')).join('\n\n')}
 

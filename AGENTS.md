@@ -6,7 +6,7 @@ Parla vs other i18n libraries on the same 200 messages: size, speed, type-check 
 
 - **Parla comes from `.packs/`**, refreshed by `pnpm parla:update`; CI packs `main` from `.parla/`.
 - **A library counts only once `formatting.test.js` passes for it.**
-- **A new library goes everywhere**: `libraries/`, `libraries.js`, the benches, `size.js`, `types.js`, `summary.js`.
+- **A new library goes everywhere**: `libraries/`, `libraries.js`, the benches, `size.js`, `types.js`, `summary.js`, `versions.js`.
 - **Compile steps live in `*-catalog.js`**, write to `.tmp/`, and run via `compile.js`.
 - **Compilers load inside `setup()`**, or memory.js counts them.
 - **Each library loads its own data**, so memory.js charges it there.

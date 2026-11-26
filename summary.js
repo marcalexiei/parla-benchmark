@@ -1,6 +1,8 @@
 // Throughput table from .tmp/bench.json.
 import { readFileSync } from 'node:fs';
 
+import { named } from './versions.js';
+
 const report = JSON.parse(readFileSync('.tmp/bench.json', 'utf8'));
 const libraries = [
   'parla',
@@ -20,7 +22,7 @@ const versus = (parla, other) => {
 };
 
 console.log(`## Throughput (Node ${process.version}, ${process.platform}-${process.arch})\n`);
-console.log(`| | ${libraries.join(' | ')} |\n|---|${libraries.map(() => '---:').join('|')}|`);
+console.log(`| | ${libraries.map(named).join(' | ')} |\n|---|${libraries.map(() => '---:').join('|')}|`);
 for (const test of report.testResults.flatMap((file) => file.assertionResults)) {
   const hz = Object.fromEntries(
     test.benchmarks.flatMap((b) => b.tasks).map((task) => [task.name, task.throughput.mean]),

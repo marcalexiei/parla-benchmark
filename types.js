@@ -5,6 +5,7 @@ import { join } from 'node:path';
 
 import { setup } from './compile.js';
 import { catalogs } from './fixtures.js';
+import { named } from './versions.js';
 
 await setup();
 
@@ -125,6 +126,6 @@ for (const [name, files] of Object.entries(projects)) {
   const samples = Array.from({ length: runs }, () => diagnostics(dir));
   const m = (key) => median(samples.map((s) => s[key]));
   console.log(
-    `| ${name} | ${m('check').toFixed(0)} ms | ${m('total').toFixed(0)} ms | ${m('memory').toFixed(0)} MB | ${m('types')} | ${m('instantiations')} |`,
+    `| ${name.startsWith('baseline') ? name : named(name)} | ${m('check').toFixed(0)} ms | ${m('total').toFixed(0)} ms | ${m('memory').toFixed(0)} MB | ${m('types')} | ${m('instantiations')} |`,
   );
 }

@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process';
 
 import { setup } from './compile.js';
 import { libraries } from './libraries.js';
+import { named } from './versions.js';
 
 await setup();
 
@@ -23,5 +24,5 @@ for (const name of Object.keys(libraries)) {
   const samples = Array.from({ length: runs }, () => probe(name));
   const loaded = median(samples.map((s) => s.loaded));
   const formatted = median(samples.map((s) => s.formatted));
-  console.log(`| ${name} | ${kb(loaded)} | ${kb(formatted)} |`);
+  console.log(`| ${named(name)} | ${kb(loaded)} | ${kb(formatted)} |`);
 }
