@@ -4,7 +4,7 @@ import { loadCatalog } from '../parla-catalog.js';
 
 const catalog = await loadCatalog();
 
-export const create = async () => createParla({ catalog }).load('app');
+export const create = async () => (await createParla({ catalog }).load(['app'])).app;
 export const formatter = async () => {
   const t = await create();
   return (key, params) => t[key](params);

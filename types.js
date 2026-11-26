@@ -27,7 +27,7 @@ const projects = {
     'usage.ts': `import { createParla } from '@parlajs/core';
 import { catalog } from '../../parla/src/parla/catalog.js';
 
-const t = await createParla({ catalog }).load('app');
+const { app: t } = await createParla({ catalog }).load(['app']);
 ${calls((k, a) => `t.${k}(${a})`)}`,
   },
   i18next: {

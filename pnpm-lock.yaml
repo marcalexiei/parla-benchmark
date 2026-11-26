@@ -886,7 +886,7 @@ packages:
     resolution: {integrity: sha512-1Duyg48TdJNdyhEB8Xn1L36bT9Pv6GUtlKjHxOys8xkaF/rQq3XJE+bAurSK/AgIz5mGFsb77cn9Pb20+WCScw==}
 
   '@parlajs/compiler@file:.packs/parlajs-compiler-0.0.0.tgz':
-    resolution: {integrity: sha512-53UiZQpBO6AWBtdKsce2zU1O6Lv2L6564bJA5npbYfIlYShUGtHLX1q6+m2QExC7Vypl2FTm2eUw/3Z7Zv4mQQ==, tarball: file:.packs/parlajs-compiler-0.0.0.tgz}
+    resolution: {integrity: sha512-FoHAVQYyKhcmOOvJBnOeEw68S62kZ1OhR/OWb5+gLkh7CDk8vr7T2TNuyFWQByGsDHA6Nius7DTesjS7i1uKpQ==, tarball: file:.packs/parlajs-compiler-0.0.0.tgz}
     version: 0.0.0
     engines: {node: ^24 || >=26}
     hasBin: true
@@ -897,22 +897,22 @@ packages:
         optional: true
 
   '@parlajs/core@file:.packs/parlajs-core-0.0.0.tgz':
-    resolution: {integrity: sha512-KVQNYEXZTGEp8GLHE2utsWZ8m8pA/PNQsYiXaSN1KnFZ0Hc6MWD1JDhJitrrmzSHeACp7a1PCJ1Q6geXJuqFmA==, tarball: file:.packs/parlajs-core-0.0.0.tgz}
+    resolution: {integrity: sha512-dQj4AvHsLk7Rj/m/YRNCgRxLc9/juhyaZWe6lf8n67i92/IYi+Y5GeqGJ73+QK2L9Gi4X7idTTmF8cMhpzavtA==, tarball: file:.packs/parlajs-core-0.0.0.tgz}
     version: 0.0.0
     engines: {node: ^24 || >=26}
 
   '@parlajs/format-icu@file:.packs/parlajs-format-icu-0.0.0.tgz':
-    resolution: {integrity: sha512-+VC4TMQ2JWa5B0RUUq27lIUi7+g09KGKWAtqL2vQqJn4ZXAeU/aGye0vseOTb+bMR9pcCScszUDIBPIu/B3eJA==, tarball: file:.packs/parlajs-format-icu-0.0.0.tgz}
+    resolution: {integrity: sha512-XorTysRNN0kXHCGs9AkqdQFZbhqC+47RfKE2/ikpgo8JCsKQplwetdrSOgLQaYm/DWhX+r8Uyz4f0Xj9yCS7JA==, tarball: file:.packs/parlajs-format-icu-0.0.0.tgz}
     version: 0.0.0
     engines: {node: ^24 || >=26}
 
   '@parlajs/format-mf2@file:.packs/parlajs-format-mf2-0.0.0.tgz':
-    resolution: {integrity: sha512-2AO3d5hyi2+zSkJ7w4ZQZxjX91wJD1uHYLehBUvQqHBq9n/Vlq6z8UdkPMeIlIsg4ooJ8lB83rQ42Pyfni5lfQ==, tarball: file:.packs/parlajs-format-mf2-0.0.0.tgz}
+    resolution: {integrity: sha512-CYC+O1I04RgPehktYhyAM1TjQc+YOhOyU4/R37KwFIMApPQYAKsZR0izLcw19s77UqtMztuQfqBeorqdgl90Zw==, tarball: file:.packs/parlajs-format-mf2-0.0.0.tgz}
     version: 0.0.0
     engines: {node: ^24 || >=26}
 
   '@parlajs/react@file:.packs/parlajs-react-0.0.0.tgz':
-    resolution: {integrity: sha512-iIdWc5szmRpshLfQWWxALkobDdVFhkn/R68Wb+9tfGCieXNhWeYF34efZHmGYZouZzBRkULFN0hWgUoN1ys7tg==, tarball: file:.packs/parlajs-react-0.0.0.tgz}
+    resolution: {integrity: sha512-9gxPMdCGCwPGLrIv3Z9wL8BaKe6Z4TW3vJ784k7cuRtByVI0aNMdA3QbNgWgi11dkkD9Rjwf0ZQ8ENLvhkO6nw==, tarball: file:.packs/parlajs-react-0.0.0.tgz}
     version: 0.0.0
     engines: {node: ^24 || >=26}
     peerDependencies:
