@@ -4,9 +4,11 @@
   "type": "module",
   "scripts": {
     "size": "node size.js",
+    "types": "node types.js",
+    "memory": "node memory.js",
     "perf": "vitest bench --run --reporter=default --reporter=json --outputFile.json=.tmp/bench.json && node summary.js",
     "test": "vitest run",
-    "bench": "pnpm size && pnpm perf",
+    "bench": "pnpm size && pnpm types && pnpm memory && pnpm perf",
     "parla:update": "pnpm --dir ../parla pack:all && rm -rf .packs && cp -R ../parla/.packs .packs && pnpm install"
   },
   "devDependencies": {
@@ -27,6 +29,7 @@
     "react-i18next": "18.0.3",
     "react-intl": "12.2.0",
     "typesafe-i18n": "5.27.1",
+    "typescript": "7.0.2",
     "vitest": "5.1.1"
   },
   "packageManager": "pnpm@12.18.0+sha512.9d7882d5dc82147ecfc4e062aa34834e0ad0296710a1837a1115ae012127d36b7109e321ac1598a1dd0a65597681b1e99917e12ed0d749eae91187943363beb3"

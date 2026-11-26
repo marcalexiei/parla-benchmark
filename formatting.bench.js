@@ -1,14 +1,16 @@
 import { test } from 'vitest';
 
-import {
-  createI18next,
-  createI18nextIcu,
-  createLingui,
-  createParaglide,
-  createParlaT,
-  createReactIntl,
-  createTypesafe,
-} from './libraries.js';
+import { libraries } from './libraries.js';
+
+const {
+  parla: { create: createParlaT },
+  i18next: { create: createI18next },
+  'i18next-icu': { create: createI18nextIcu },
+  'react-intl': { create: createReactIntl },
+  lingui: { create: createLingui },
+  paraglide: { create: createParaglide },
+  'typesafe-i18n': { create: createTypesafe },
+} = libraries;
 
 const t = await createParlaT();
 const n = createI18next();

@@ -71,6 +71,12 @@ jobs:
       - name: Size
         run: pnpm size | tee -a "$GITHUB_STEP_SUMMARY"
 
+      - name: Type-check time
+        run: pnpm types | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Memory
+        run: pnpm memory | tee -a "$GITHUB_STEP_SUMMARY"
+
       - name: Speed
         run: |
           pnpm perf

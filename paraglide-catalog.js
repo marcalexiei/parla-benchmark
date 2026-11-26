@@ -3,8 +3,6 @@ import { createRequire } from 'node:module';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-import { compile } from '@inlang/paraglide-js';
-
 import { catalogs } from './fixtures.js';
 
 const dir = join(import.meta.dirname, '.tmp/paraglide');
@@ -13,6 +11,7 @@ export const outUrl = (file) => pathToFileURL(join(outdir, file)).href;
 
 /** Compiles the inlang-format fixtures into Paraglide's message functions. */
 export async function setup() {
+  const { compile } = await import('@inlang/paraglide-js');
   rmSync(dir, { recursive: true, force: true });
   mkdirSync(join(dir, 'project.inlang'), { recursive: true });
   mkdirSync(join(dir, 'messages'));
@@ -33,6 +32,8 @@ export async function setup() {
     // The default also reads a cookie, which is browser-only.
     strategy: ['globalVariable', 'baseLocale'],
     isDevelopment: 'false',
+    // For types.js.
+    emitTsDeclarations: true,
     emitGitIgnore: false,
     emitPrettierIgnore: false,
     emitReadme: false,

@@ -6,8 +6,8 @@ import { brotliCompressSync, gzipSync } from 'node:zlib';
 import * as esbuild from 'esbuild';
 
 import { catalogs } from './fixtures.js';
+import { setup } from './compile.js';
 import * as lingui from './lingui-catalog.js';
-import * as paraglide from './paraglide-catalog.js';
 import * as parla from './parla-catalog.js';
 import * as typesafe from './typesafe-catalog.js';
 
@@ -46,10 +46,7 @@ const runtimes = {
 };
 
 // Paraglide's runtime is generated, so compile every catalog first.
-parla.setup();
-lingui.setup();
-await paraglide.setup();
-await typesafe.setup();
+await setup();
 
 console.log('\n## Runtime (minified, React excluded)\n');
 console.log('| | min | gzip | brotli |\n|---|---:|---:|---:|');
