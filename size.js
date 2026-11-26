@@ -1,4 +1,4 @@
-// Runtime and per-locale payload size of each library. Run: pnpm size
+// Runtime and per-locale payload sizes.
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { brotliCompressSync, gzipSync } from 'node:zlib';
@@ -45,7 +45,7 @@ const runtimes = {
   'typesafe-i18n + typesafe-i18n/react': `export { i18n, i18nObject } from 'typesafe-i18n'; export { initI18nReact } from 'typesafe-i18n/react';`,
 };
 
-// Paraglide's runtime is generated, so compile every catalog first.
+// Paraglide's runtime is generated.
 await setup();
 
 console.log('\n## Runtime (minified, React excluded)\n');
@@ -55,10 +55,9 @@ for (const [name, entry] of Object.entries(runtimes)) {
   console.log(`| ${name} | ${kb(s.min)} | ${kb(s.gzip)} | ${kb(s.brotli)} |`);
 }
 
-// Per-locale payload for the same 200 messages.
 const minify = async (path) =>
   Buffer.from((await esbuild.transform(readFileSync(path, 'utf8'), { minify: true })).code);
-// Counted above as Paraglide's runtime.
+// Counted as runtime above.
 const paraglideRuntime = {
   name: 'paraglide-runtime',
   setup: (build) =>

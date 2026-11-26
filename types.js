@@ -1,4 +1,4 @@
-// Type-check time and memory of the same 200 typed calls per library, with TypeScript's tsc. Run: pnpm types
+// tsc time and memory on 200 typed calls per library.
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -20,7 +20,7 @@ const calls = (call) => `export const out: string[] = [\n${keys.map((k) => `  ${
 const object = (catalog, suffix = '') =>
   `export default ${JSON.stringify(catalog, null, 2)}${suffix};\n`;
 
-// Each library's documented way to type its keys (and params, where it can).
+// Each library typed its documented way.
 const projects = {
   'baseline (200 string literals)': { 'usage.ts': calls((k) => `'${k}'`) },
   parla: {
@@ -31,7 +31,7 @@ const t = await createParla({ catalog }).load('app');
 ${calls((k, a) => `t.${k}(${a})`)}`,
   },
   i18next: {
-    // `as const` lets i18next infer `{{name}}` params; a JSON import only gives keys.
+    // `as const` lets i18next infer params.
     'resources.ts': object(catalogs.i18next, ' as const'),
     'usage.ts': `import i18next from 'i18next';
 import type resources from './resources.js';
@@ -93,7 +93,7 @@ const tsconfig = {
     lib: ['es2022', 'dom'],
     types: [],
     skipLibCheck: true,
-    // typesafe-i18n's generated util is JavaScript with JSDoc types.
+    // typesafe-i18n's util is JS with JSDoc.
     allowJs: true,
   },
   files: ['usage.ts'],
@@ -101,7 +101,7 @@ const tsconfig = {
 
 const median = (xs) => xs.toSorted((a, b) => a - b)[Math.floor(xs.length / 2)];
 const diagnostics = (dir) => {
-  // tsc exits non-zero on a type error, which would make these numbers meaningless.
+  // Throws on a type error.
   const out = execFileSync(tsc, ['-p', dir, '--extendedDiagnostics'], { encoding: 'utf8' });
   const field = (name) => Number.parseFloat(out.match(new RegExp(`${name}:\\s+([\\d.]+)`))[1]);
   return {

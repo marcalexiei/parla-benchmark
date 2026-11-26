@@ -7,7 +7,6 @@ import { catalogs } from './fixtures.js';
 const dir = join(import.meta.dirname, '.tmp/parla');
 export const chunkPath = join(dir, 'src/parla/messages/en/app.js');
 
-/** Compiles the ICU fixtures into Parla's catalog and per-locale chunk. */
 export async function setup() {
   const { build } = await import('@parlajs/compiler');
   rmSync(dir, { recursive: true, force: true });

@@ -8,7 +8,7 @@ const dir = join(import.meta.dirname, '.tmp/lingui');
 export const compiledPath = join(dir, 'en.js');
 export const compiledUrl = pathToFileURL(compiledPath).href;
 
-/** Compiles the ICU fixtures into the catalog module `lingui compile` writes. */
+/** Writes what `lingui compile` writes. */
 export async function setup() {
   const { createCompiledCatalog } = await import('@lingui/cli/api');
   rmSync(dir, { recursive: true, force: true });

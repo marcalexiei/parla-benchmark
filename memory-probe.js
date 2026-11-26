@@ -1,4 +1,4 @@
-// Heap one library holds once loaded, then once every message is formatted. memory.js runs it.
+// Heap after loading one library, then after formatting everything.
 import { catalogs } from './fixtures.js';
 
 const heap = () => {

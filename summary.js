@@ -1,4 +1,4 @@
-// Throughput table from `pnpm perf`'s JSON report, for the README and the CI job summary.
+// Throughput table from .tmp/bench.json.
 import { readFileSync } from 'node:fs';
 
 const report = JSON.parse(readFileSync('.tmp/bench.json', 'utf8'));

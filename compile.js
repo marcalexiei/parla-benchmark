@@ -3,9 +3,9 @@ import * as paraglide from './paraglide-catalog.js';
 import * as parla from './parla-catalog.js';
 import * as typesafe from './typesafe-catalog.js';
 
-/** Runs every library's compile step; vitest's `globalSetup`, and the first step of each script. */
+/** Every compile step; also vitest's globalSetup. */
 export async function setup() {
   await Promise.all([parla.setup(), lingui.setup(), paraglide.setup()]);
-  // Alone: it changes the working directory while it runs.
+  // Last: it changes the working directory.
   await typesafe.setup();
 }

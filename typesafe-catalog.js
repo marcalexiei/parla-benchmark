@@ -8,7 +8,6 @@ const dir = join(import.meta.dirname, '.tmp/typesafe-i18n');
 export const outdir = join(dir, 'src/i18n');
 export const outUrl = (file) => pathToFileURL(join(outdir, file)).href;
 
-/** Writes the base locale and runs typesafe-i18n's generator on it, as JavaScript. */
 export async function setup() {
   rmSync(dir, { recursive: true, force: true });
   mkdirSync(dir, { recursive: true });
@@ -22,11 +21,11 @@ export async function setup() {
       outputPath: './src/i18n/',
     }),
   );
-  // The CLI reads the base locale through the TypeScript JS API, which TypeScript 7 dropped.
+  // Its CLI needs ts.createProgram, gone in TypeScript 7.
   const { storeTranslationToDisk } = await import('typesafe-i18n/importer');
   const { info } = console;
   const cwd = process.cwd();
-  // It reads its config from the working directory, and its logs would land in size.js's tables.
+  // Config comes from cwd; logs would pollute size.js output.
   process.chdir(dir);
   console.info = () => {};
   try {
@@ -35,6 +34,6 @@ export async function setup() {
     process.chdir(cwd);
     console.info = info;
   }
-  // Its scratch copy would shadow the real package for the generated files.
+  // Its scratch copy shadows the real package.
   rmSync(join(dir, 'node_modules'), { recursive: true, force: true });
 }

@@ -1,4 +1,4 @@
-// The same 200 English messages in each library's syntax: 120 plain, 50 interpolated, 30 plural.
+// Same 200 messages in each library's syntax.
 const words = [
   'account',
   'billing',
@@ -32,7 +32,7 @@ for (let i = 0; i < 30; i++) {
   i18next[`count${i}_one`] = `{{count}} ${word} item`;
   i18next[`count${i}_other`] = `{{count}} ${word} items`;
   icu[`count${i}`] = `{count, plural, one {# ${word} item} other {# ${word} items}}`;
-  // inlang message format: plural categories are variants of a local selector.
+  // inlang format: plurals are variants of a selector.
   paraglide[`count${i}`] = [
     {
       declarations: ['input count', 'local countPlural = count: plural'],
@@ -46,5 +46,5 @@ for (let i = 0; i < 30; i++) {
   typesafe[`count${i}`] = `{count} ${word} {{item|items}}`;
 }
 
-// Lingui and react-intl read the ICU catalog.
+// Lingui and react-intl use `icu`.
 export const catalogs = { i18next, icu, paraglide, typesafe };

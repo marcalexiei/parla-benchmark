@@ -1,4 +1,4 @@
-// Heap each library holds, in its own process. Run: pnpm memory
+// Heap per library, one process each.
 import { execFileSync } from 'node:child_process';
 
 import { setup } from './compile.js';

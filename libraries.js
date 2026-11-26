@@ -1,4 +1,4 @@
-// One module per library, so memory.js can load each alone.
+// One module per library, for memory.js.
 import * as i18nextIcu from './libraries/i18next-icu.js';
 import * as i18next from './libraries/i18next.js';
 import * as lingui from './libraries/lingui.js';

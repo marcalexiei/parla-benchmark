@@ -9,7 +9,6 @@ const dir = join(import.meta.dirname, '.tmp/paraglide');
 export const outdir = join(dir, 'out');
 export const outUrl = (file) => pathToFileURL(join(outdir, file)).href;
 
-/** Compiles the inlang-format fixtures into Paraglide's message functions. */
 export async function setup() {
   const { compile } = await import('@inlang/paraglide-js');
   rmSync(dir, { recursive: true, force: true });
@@ -21,7 +20,7 @@ export async function setup() {
     JSON.stringify({
       baseLocale: 'en',
       locales: ['en'],
-      // A local plugin path, so compiling never fetches it from a CDN.
+      // Local, never a CDN.
       modules: [createRequire(import.meta.url).resolve('@inlang/plugin-message-format')],
       'plugin.inlang.messageFormat': { pathPattern: './messages/{locale}.json' },
     }),
@@ -29,7 +28,7 @@ export async function setup() {
   await compile({
     project: join(dir, 'project.inlang'),
     outdir,
-    // The default also reads a cookie, which is browser-only.
+    // The default's cookie is browser-only.
     strategy: ['globalVariable', 'baseLocale'],
     isDevelopment: 'false',
     // For types.js.
