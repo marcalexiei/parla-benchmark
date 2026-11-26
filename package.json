@@ -8,8 +8,8 @@
     "memory": "node memory.js",
     "perf": "vitest bench --run --reporter=default --reporter=json --outputFile.json=.tmp/bench.json && node summary.js",
     "test": "vitest run",
-    "bench": "pnpm size && pnpm types && pnpm memory && pnpm perf",
-    "parla:update": "pnpm --dir ../parla pack:all && rm -rf .packs && cp -R ../parla/.packs .packs && pnpm install"
+    "bench": "node results.js",
+    "parla:update": "pnpm --dir ../parla pack:all && rm -rf .packs && cp -R ../parla/.packs .packs && git -C ../parla describe --always --dirty > .packs/commit && pnpm install"
   },
   "devDependencies": {
     "@inlang/paraglide-js": "3.2.2",

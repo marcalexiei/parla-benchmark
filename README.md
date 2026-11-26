@@ -5,7 +5,7 @@
 ```sh
 pnpm parla:update   # pack ../parla into .packs/
 pnpm test           # every library formats the same text
-pnpm bench          # size, types, memory, perf
+pnpm bench          # size, types, memory, perf; updates the results below
 ```
 
 CI runs it against Parla's `main` and writes the tables to the job summary.
@@ -19,66 +19,71 @@ Workarounds:
 
 ## Results
 
-Node v26.13.1, Apple Silicon, 2026-11-26. Ratios are against Parla.
+Latest run; earlier ones are in [`results/`](results/).
+
+<!-- results 2026-11-26_2221 -->
+
+2026-11-26 22:21 UTC, Apple M3, darwin-arm64. Ratios are against Parla.
+
+Versions: @inlang/paraglide-js 3.2.2, @inlang/plugin-message-format 4.6.2, @lingui/cli 6.12.0, @lingui/core 6.12.0, @lingui/react 6.12.0, @parlajs/compiler 0.0.0 (fb483a2), @parlajs/core 0.0.0 (fb483a2), @parlajs/react 0.0.0 (fb483a2), esbuild 0.28.2, i18next 27.2.4, i18next-icu 2.7.1, intl-messageformat 12.2.0, react 19.3.1, react-dom 19.3.1, react-i18next 18.0.3, react-intl 12.2.0, typesafe-i18n 5.27.1, typescript 7.0.2, vitest 5.1.1.
 
 ### Runtime (minified, React excluded)
 
-|                                               |     min |    gzip |  brotli |
-| --------------------------------------------- | ------: | ------: | ------: |
-| parla (`@parlajs/react`, incl. core)          |  4.8 kB |  2.2 kB |  2.0 kB |
-| i18next + react-i18next                       | 54.8 kB | 18.2 kB | 16.4 kB |
-| i18next + react-i18next + i18next-icu         | 96.1 kB | 30.8 kB | 27.2 kB |
-| react-intl (incl. the ICU parser)             | 50.2 kB | 14.6 kB | 13.1 kB |
-| lingui (`@lingui/core` + `@lingui/react`)     | 10.5 kB |  4.4 kB |  3.9 kB |
-| paraglide (generated runtime, no React layer) | 11.2 kB |  4.2 kB |  3.8 kB |
-| typesafe-i18n + `typesafe-i18n/react`         |  4.6 kB |  1.6 kB |  1.4 kB |
+| | min | gzip | brotli |
+|---|---:|---:|---:|
+| parla (@parlajs/react, includes core) | 5.5 kB | 2.5 kB | 2.3 kB |
+| i18next + react-i18next | 54.8 kB | 18.2 kB | 16.4 kB |
+| i18next + react-i18next + i18next-icu | 96.1 kB | 30.8 kB | 27.2 kB |
+| react-intl (includes the ICU parser) | 50.2 kB | 14.6 kB | 13.1 kB |
+| lingui (@lingui/core + @lingui/react) | 10.5 kB | 4.4 kB | 3.9 kB |
+| paraglide (generated runtime, no React binding) | 11.2 kB | 4.2 kB | 3.8 kB |
+| typesafe-i18n + typesafe-i18n/react | 4.6 kB | 1.6 kB | 1.4 kB |
 
 ### One locale, one namespace (200 messages)
 
-|                                                  |     raw |   gzip | brotli |
-| ------------------------------------------------ | ------: | -----: | -----: |
-| parla compiled chunk (minified JS)               | 14.2 kB | 1.3 kB | 0.8 kB |
-| i18next JSON                                     | 10.9 kB | 1.2 kB | 0.7 kB |
-| i18next-icu / react-intl JSON (ICU strings)      | 10.6 kB | 1.1 kB | 0.7 kB |
-| lingui compiled catalog (minified JS)            | 11.8 kB | 1.1 kB | 0.8 kB |
-| paraglide message functions (minified JS)        | 39.2 kB | 4.6 kB | 2.9 kB |
-| typesafe-i18n locale (minified JS, parsed later) |  9.3 kB | 1.0 kB | 0.6 kB |
+| | raw | gzip | brotli |
+|---|---:|---:|---:|
+| parla compiled chunk (minified JS) | 13.0 kB | 1.3 kB | 0.8 kB |
+| i18next JSON (`{{var}}`, `_one`/`_other` plurals) | 10.9 kB | 1.2 kB | 0.7 kB |
+| i18next-icu / react-intl JSON (ICU strings, parsed in the browser) | 10.6 kB | 1.1 kB | 0.7 kB |
+| lingui compiled catalog (minified JS) | 11.8 kB | 1.1 kB | 0.8 kB |
+| paraglide message functions (minified JS) | 39.2 kB | 4.6 kB | 2.9 kB |
+| typesafe-i18n locale (minified JS, parsed in the browser) | 9.3 kB | 1.0 kB | 0.6 kB |
 
-### Throughput
+### Type-check (TypeScript 7.0.2, median of 5 runs)
 
-|               |          plain string |        interpolation |               plural | cold start (create + load + 1 message) |
-| ------------- | --------------------: | -------------------: | -------------------: | -------------------------------------: |
-| parla         |               43.2M/s |              38.7M/s |               1.9M/s |                                 172k/s |
-| i18next       |   913k/s (47× slower) |  735k/s (53× slower) | 463k/s (4.2× slower) |                    80k/s (2.1× slower) |
-| i18next-icu   |   1.0M/s (42× slower) |  872k/s (44× slower) | 365k/s (5.3× slower) |                    63k/s (2.7× slower) |
-| react-intl    |   2.2M/s (19× slower) |  1.7M/s (23× slower) | 588k/s (3.3× slower) |                   271k/s (1.6× faster) |
-| lingui        | 13.2M/s (3.3× slower) | 7.3M/s (5.3× slower) | 849k/s (2.3× slower) |                      7k/s (24× slower) |
-| paraglide     | 10.9M/s (4.0× slower) | 9.8M/s (4.0× slower) | 1.5M/s (1.3× slower) |                  7.3M/s (no init step) |
-| typesafe-i18n | 13.2M/s (3.3× slower) | 8.0M/s (4.8× slower) | 2.8M/s (1.4× faster) |                    26k/s (6.7× slower) |
+| | check | total | memory | types | instantiations |
+|---|---:|---:|---:|---:|---:|
+| baseline (200 string literals) | 1 ms | 33 ms | 24 MB | 945 | 1 |
+| parla | 1 ms | 30 ms | 25 MB | 1126 | 365 |
+| i18next | 65 ms | 86 ms | 49 MB | 14563 | 99639 |
+| react-intl | 20 ms | 41 ms | 39 MB | 8363 | 10544 |
+| lingui | 1 ms | 20 ms | 25 MB | 1619 | 9 |
+| paraglide | 2 ms | 21 ms | 27 MB | 1643 | 804 |
+| typesafe-i18n | 2 ms | 22 ms | 26 MB | 1945 | 1693 |
 
-### Type-check (TypeScript 7.0.2, 200 typed calls, median of 5 runs)
+### Heap (Node v26.13.1, median of 5 fresh processes)
 
-|                                | check | total | memory | types | instantiations |
-| ------------------------------ | ----: | ----: | -----: | ----: | -------------: |
-| baseline (200 string literals) |  0 ms | 18 ms |  24 MB |   945 |              1 |
-| parla                          |  1 ms | 18 ms |  25 MB |  1071 |            127 |
-| i18next                        | 57 ms | 74 ms |  49 MB | 14563 |          99639 |
-| react-intl                     | 19 ms | 39 ms |  39 MB |  8363 |          10544 |
-| lingui                         |  1 ms | 18 ms |  25 MB |  1619 |              9 |
-| paraglide                      |  2 ms | 19 ms |  27 MB |  1643 |            804 |
-| typesafe-i18n                  |  2 ms | 20 ms |  26 MB |  1945 |           1693 |
+| | loaded | after formatting all 200 |
+|---|---:|---:|
+| parla | 727 kB | 812 kB |
+| i18next | 332 kB | 538 kB |
+| i18next-icu | 758 kB | 1654 kB |
+| react-intl | 752 kB | 1109 kB |
+| lingui | 995 kB | 1046 kB |
+| paraglide | 2157 kB | 2166 kB |
+| typesafe-i18n | 845 kB | 916 kB |
 
-### Heap (median of 5 fresh processes)
+### Throughput (Node v26.13.1, darwin-arm64)
 
-|               |  loaded | after formatting all 200 |
-| ------------- | ------: | -----------------------: |
-| parla         |  704 kB |                   798 kB |
-| i18next       |  332 kB |                   538 kB |
-| i18next-icu   |  758 kB |                  1654 kB |
-| react-intl    |  752 kB |                  1109 kB |
-| lingui        |  995 kB |                  1046 kB |
-| paraglide     | 2157 kB |                  2166 kB |
-| typesafe-i18n |  845 kB |                   916 kB |
+| | parla | i18next | i18next-icu | react-intl | lingui | paraglide | typesafe-i18n |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| plain string | 39.0M/s | 903k/s (parla 43.1× faster) | 998k/s (parla 39.0× faster) | 2.2M/s (parla 18.0× faster) | 14.7M/s (parla 2.7× faster) | 10.3M/s (parla 3.8× faster) | 12.5M/s (parla 3.1× faster) |
+| interpolation | 36.9M/s | 742k/s (parla 49.8× faster) | 891k/s (parla 41.5× faster) | 1.5M/s (parla 24.7× faster) | 7.2M/s (parla 5.1× faster) | 9.8M/s (parla 3.8× faster) | 7.9M/s (parla 4.7× faster) |
+| plural | 2.6M/s | 446k/s (parla 5.9× faster) | 358k/s (parla 7.3× faster) | 559k/s (parla 4.7× faster) | 835k/s (parla 3.1× faster) | 1.6M/s (parla 1.7× faster) | 2.7M/s (parla 1.0× slower) |
+| cold start (create + load + 1 message) | 161k/s | 80k/s (parla 2.0× faster) | 63k/s (parla 2.5× faster) | 268k/s (parla 1.7× slower) | 7k/s (parla 23.4× faster) | 7.1M/s (parla 44.3× slower) | 25k/s (parla 6.4× faster) |
+
+<!-- /results -->
 
 ## Reading them
 

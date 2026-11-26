@@ -17,7 +17,7 @@ Parla vs other i18n libraries on the same 200 messages: size, speed, type-check 
 ```sh
 pnpm parla:update   # repack ../parla
 pnpm test           # same output everywhere
-pnpm bench          # size, types, memory, perf
+pnpm bench          # size, types, memory, perf; archives the README's results, writes new ones
 ```
 
 ## Conventions
@@ -26,4 +26,5 @@ pnpm bench          # size, types, memory, perf
 - **pnpm 12, exact versions**; install scripts go in `allowBuilds`.
 - **Comments: one line, the reason.**
 - **Commits: one-line conventional subject**, no body, no co-author.
-- **Keep `bench.yml` green and the README tables current.**
+- **Keep `bench.yml` green.** README results change only through `pnpm bench`, which moves the old ones to `results/<UTC date_time>.md` (versions go in the header: as a filename they'd pass the 255-byte limit).
+- **Parla's commit is in `.packs/commit`**, since every pack is 0.0.0.
