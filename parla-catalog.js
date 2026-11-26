@@ -12,14 +12,12 @@ export async function setup() {
   rmSync(dir, { recursive: true, force: true });
   mkdirSync(join(dir, 'locales/en'), { recursive: true });
   writeFileSync(join(dir, 'locales/en/app.json'), JSON.stringify(catalogs.icu));
-  writeFileSync(
-    join(dir, 'parla.config.json'),
-    JSON.stringify({
-      locales: ['en'],
-      namespaces: { app: { format: 'icu', path: 'locales/{locale}/app.json' } },
-    }),
-  );
-  build({ cwd: dir });
+  const config = {
+    locales: ['en'],
+    namespaces: { app: { format: 'icu', path: 'locales/{locale}/app.json' } },
+  };
+  writeFileSync(join(dir, 'parla.config.ts'), `export default ${JSON.stringify(config)};\n`);
+  await build({ cwd: dir });
 }
 
 export async function loadCatalog() {
