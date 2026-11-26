@@ -1,0 +1,25 @@
+{
+  "name": "parla-benchmark",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "size": "node size.mjs",
+    "perf": "node perf.mjs",
+    "bench": "node size.mjs && node perf.mjs",
+    "parla:update": "pnpm --dir ../parla pack:all && pnpm install --force"
+  },
+  "devDependencies": {
+    "@parlajs/compiler": "0.0.0",
+    "@parlajs/core": "0.0.0",
+    "@parlajs/react": "0.0.0",
+    "esbuild": "0.28.2",
+    "i18next": "27.2.4",
+    "i18next-icu": "2.7.1",
+    "intl-messageformat": "12.2.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-i18next": "18.0.3",
+    "tinybench": "6.2.4"
+  },
+  "packageManager": "pnpm@10.34.1"
+}
