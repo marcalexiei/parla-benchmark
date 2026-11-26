@@ -1,4 +1,4 @@
-// The same 200 English messages in i18next and ICU syntax: 120 plain, 50 interpolated, 30 plural.
+// The same 200 English messages in each library's syntax: 120 plain, 50 interpolated, 30 plural.
 const words = [
   'account',
   'billing',
@@ -14,20 +14,37 @@ const words = [
 
 const i18next = {};
 const icu = {};
+const paraglide = {};
+const typesafe = {};
 for (let i = 0; i < 120; i++) {
   const text = `Open the ${words[i % 10]} page to review item ${i}`;
-  i18next[`plain${i}`] = text;
-  icu[`plain${i}`] = text;
+  for (const catalog of [i18next, icu, paraglide, typesafe]) catalog[`plain${i}`] = text;
 }
 for (let i = 0; i < 50; i++) {
-  i18next[`greet${i}`] = `Hello {{name}}, your ${words[i % 10]} is ready`;
-  icu[`greet${i}`] = `Hello {name}, your ${words[i % 10]} is ready`;
+  const word = words[i % 10];
+  i18next[`greet${i}`] = `Hello {{name}}, your ${word} is ready`;
+  for (const catalog of [icu, paraglide, typesafe]) {
+    catalog[`greet${i}`] = `Hello {name}, your ${word} is ready`;
+  }
 }
 for (let i = 0; i < 30; i++) {
-  i18next[`count${i}_one`] = `{{count}} ${words[i % 10]} item`;
-  i18next[`count${i}_other`] = `{{count}} ${words[i % 10]} items`;
-  icu[`count${i}`] =
-    `{count, plural, one {# ${words[i % 10]} item} other {# ${words[i % 10]} items}}`;
+  const word = words[i % 10];
+  i18next[`count${i}_one`] = `{{count}} ${word} item`;
+  i18next[`count${i}_other`] = `{{count}} ${word} items`;
+  icu[`count${i}`] = `{count, plural, one {# ${word} item} other {# ${word} items}}`;
+  // inlang message format: plural categories are variants of a local selector.
+  paraglide[`count${i}`] = [
+    {
+      declarations: ['input count', 'local countPlural = count: plural'],
+      selectors: ['countPlural'],
+      match: {
+        'countPlural=one': `{count} ${word} item`,
+        'countPlural=*': `{count} ${word} items`,
+      },
+    },
+  ];
+  typesafe[`count${i}`] = `{count} ${word} {{item|items}}`;
 }
 
-export const catalogs = { i18next, icu };
+// Lingui and react-intl read the ICU catalog.
+export const catalogs = { i18next, icu, paraglide, typesafe };

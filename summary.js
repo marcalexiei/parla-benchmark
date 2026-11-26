@@ -2,7 +2,15 @@
 import { readFileSync } from 'node:fs';
 
 const report = JSON.parse(readFileSync('.tmp/bench.json', 'utf8'));
-const libraries = ['parla', 'i18next', 'i18next-icu'];
+const libraries = [
+  'parla',
+  'i18next',
+  'i18next-icu',
+  'react-intl',
+  'lingui',
+  'paraglide',
+  'typesafe-i18n',
+];
 
 const fmt = (x) =>
   x >= 1e6 ? `${(x / 1e6).toFixed(1)}M` : x >= 1e3 ? `${(x / 1e3).toFixed(0)}k` : x.toFixed(0);
