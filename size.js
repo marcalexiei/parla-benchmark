@@ -1,12 +1,11 @@
 // Runtime and per-locale payload size: Parla vs i18next. Run: pnpm size
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync } from 'node:fs';
 import { brotliCompressSync, gzipSync } from 'node:zlib';
 
-import { build as parlaBuild } from '@parlajs/compiler';
 import * as esbuild from 'esbuild';
 
-import { catalogs } from './fixtures.mjs';
+import { catalogs } from './fixtures.js';
+import { chunkPath, setup } from './parla-catalog.js';
 
 const here = import.meta.dirname;
 const kb = (n) => `${(n / 1024).toFixed(1)} kB`;
@@ -45,19 +44,8 @@ for (const [name, entry] of Object.entries(runtimes)) {
 }
 
 // Per-locale payload for the same 200 messages.
-const tmp = join(here, '.tmp/size');
-rmSync(tmp, { recursive: true, force: true });
-mkdirSync(join(tmp, 'locales/en'), { recursive: true });
-writeFileSync(join(tmp, 'locales/en/app.json'), JSON.stringify(catalogs.icu));
-writeFileSync(
-  join(tmp, 'parla.config.json'),
-  JSON.stringify({
-    locales: ['en'],
-    namespaces: { app: { format: 'icu', path: 'locales/{locale}/app.json' } },
-  }),
-);
-await parlaBuild({ cwd: tmp });
-const chunk = readFileSync(join(tmp, 'src/parla/messages/en/app.js'), 'utf8');
+setup();
+const chunk = readFileSync(chunkPath, 'utf8');
 const chunkMin = Buffer.from(
   (await esbuild.transform(chunk, { minify: true, format: 'esm' })).code,
 );

@@ -1,12 +1,16 @@
 # parla-benchmark
 
 Size and speed of [Parla](https://github.com/marcalexiei/parla) against other i18n libraries,
-on the same 200 English messages: 120 plain, 50 interpolated, 30 plural (`fixtures.mjs`).
+on the same 200 English messages: 120 plain, 50 interpolated, 30 plural (`fixtures.js`).
 
 ```sh
-pnpm parla:update   # pack ../parla and reinstall
-pnpm bench          # size.mjs, then perf.mjs
+pnpm parla:update   # pack ../parla into .packs/ and reinstall
+pnpm test           # every library formats the same text
+pnpm bench          # size.js, then the vitest benchmarks in formatting.bench.js
 ```
+
+CI runs the same against Parla's `main` on every push, pull request and Monday, and writes the
+tables to the job summary.
 
 ## Results
 

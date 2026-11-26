@@ -1,10 +1,11 @@
-# Parla is not on npm yet: install the tarballs built by `pnpm parla:update` in ../parla.
+# Parla is not on npm yet: `pnpm parla:update` packs ../parla into .packs/.
 overrides:
-  '@parlajs/core': file:../parla/.packs/parlajs-core-0.0.0.tgz
-  '@parlajs/react': file:../parla/.packs/parlajs-react-0.0.0.tgz
-  '@parlajs/compiler': file:../parla/.packs/parlajs-compiler-0.0.0.tgz
-  '@parlajs/format-icu': file:../parla/.packs/parlajs-format-icu-0.0.0.tgz
-  '@parlajs/format-mf2': file:../parla/.packs/parlajs-format-mf2-0.0.0.tgz
+  '@parlajs/core': file:.packs/parlajs-core-0.0.0.tgz
+  '@parlajs/react': file:.packs/parlajs-react-0.0.0.tgz
+  '@parlajs/compiler': file:.packs/parlajs-compiler-0.0.0.tgz
+  '@parlajs/format-icu': file:.packs/parlajs-format-icu-0.0.0.tgz
+  '@parlajs/format-mf2': file:.packs/parlajs-format-mf2-0.0.0.tgz
 
-onlyBuiltDependencies:
-  - esbuild
+allowBuilds:
+  # fetches its platform binary in a postinstall
+  esbuild: true

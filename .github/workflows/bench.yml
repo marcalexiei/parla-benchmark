@@ -1,0 +1,77 @@
+name: Benchmark
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  # Parla's main moves without a commit here.
+  schedule:
+    - cron: '0 6 * * 1'
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.head_ref || github.sha }}'
+  cancel-in-progress: true
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  bench:
+    name: Size and speed
+    runs-on: ubuntu-26.04
+    timeout-minutes: 15
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Checkout Parla
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: marcalexiei/parla
+          path: .parla
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+
+      - name: Pack Parla
+        env:
+          LEFTHOOK: '0'
+        run: |
+          pnpm --dir .parla install --frozen-lockfile
+          pnpm --dir .parla pack:all
+          cp -R .parla/.packs .packs
+
+      # Not frozen: the tarballs' hashes follow Parla's main.
+      - name: Install Dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Check every library formats alike
+        run: pnpm test
+
+      - name: Size
+        run: pnpm size | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Speed
+        run: |
+          pnpm perf
+          node summary.js >> "$GITHUB_STEP_SUMMARY"
