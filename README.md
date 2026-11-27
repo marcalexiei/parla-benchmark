@@ -21,7 +21,7 @@ Workarounds:
 
 Latest run; earlier ones are in [`results/`](results/).
 
-<!-- results 2026-11-27_1350 -->
+<!-- results 2026-11-27_d6d3095 -->
 
 2026-11-27 13:50 UTC, Apple M3, darwin-arm64. Ratios are against Parla.
 

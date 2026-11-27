@@ -29,5 +29,5 @@ pnpm format         # oxfmt (`format:check` in CI)
 - **Comments: one line, the reason.**
 - **Each oxlint override carries its reason in `oxlint.config.ts`**; an inline disable, after `--`.
 - **Commits: one-line conventional subject**, no body, no co-author.
-- **Keep `bench.yml` green.** README results change only through `pnpm bench`, which moves the old ones to `results/<UTC date_time>.md` (versions go in the header: as a filename they'd pass the 255-byte limit).
+- **Keep `bench.yml` green.** README results change only through `pnpm bench`, which moves the old ones to `results/<UTC date>_<Parla version>.md`: the commit until Parla is published. Other versions go in the header: as a filename they'd pass the 255-byte limit.
 - **Parla's commit is in `.packs/commit`**, since every pack is 0.0.0.
