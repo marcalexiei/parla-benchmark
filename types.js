@@ -5,6 +5,7 @@ import { join } from 'node:path';
 
 import { setup } from './compile.js';
 import { catalogs } from './fixtures.js';
+import { hasNamespaceObjects } from './parla-catalog.js';
 import { named } from './versions.js';
 
 await setup();
@@ -27,8 +28,8 @@ const projects = {
   parla: {
     'usage.ts': `import { createParla } from '@parlajs/core';
 import { catalog } from '../../parla/src/parla/catalog.js';
-
-const { app: t } = await createParla({ catalog }).load(['app']);
+${hasNamespaceObjects() ? "import { app } from '../../parla/src/parla/namespaces/app.js';\n" : ''}
+const { app: t } = await createParla({ catalog }).load([${hasNamespaceObjects() ? 'app' : "'app'"}]);
 ${calls((k, a) => `t.${k}(${a})`)}`,
   },
   i18next: {
