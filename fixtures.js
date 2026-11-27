@@ -16,18 +16,20 @@ const i18next = {};
 const icu = {};
 const paraglide = {};
 const typesafe = {};
-for (let i = 0; i < 120; i++) {
+for (let i = 0; i < 120; i += 1) {
   const text = `Open the ${words[i % 10]} page to review item ${i}`;
-  for (const catalog of [i18next, icu, paraglide, typesafe]) catalog[`plain${i}`] = text;
+  for (const catalog of [i18next, icu, paraglide, typesafe]) {
+    catalog[`plain${i}`] = text;
+  }
 }
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 50; i += 1) {
   const word = words[i % 10];
   i18next[`greet${i}`] = `Hello {{name}}, your ${word} is ready`;
   for (const catalog of [icu, paraglide, typesafe]) {
     catalog[`greet${i}`] = `Hello {name}, your ${word} is ready`;
   }
 }
-for (let i = 0; i < 30; i++) {
+for (let i = 0; i < 30; i += 1) {
   const word = words[i % 10];
   i18next[`count${i}_one`] = `{{count}} ${word} item`;
   i18next[`count${i}_other`] = `{{count}} ${word} items`;

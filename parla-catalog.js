@@ -26,6 +26,9 @@ export async function setup() {
 /** The catalog, and what `load` takes for the `app` namespace. */
 export async function loadCatalog() {
   const { catalog } = await import(pathToFileURL(join(dir, 'src/parla/catalog.js')).href);
-  const app = hasNamespaceObjects() ? (await import(pathToFileURL(appModule).href)).app : 'app';
+  if (!hasNamespaceObjects()) {
+    return { catalog, app: 'app' };
+  }
+  const { app } = await import(pathToFileURL(appModule).href);
   return { catalog, app };
 }

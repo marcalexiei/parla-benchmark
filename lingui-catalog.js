@@ -17,6 +17,8 @@ export async function setup() {
     namespace: 'es',
     strict: true,
   });
-  if (errors.length) throw new Error(`lingui: ${errors.map((e) => e.id).join(', ')}`);
+  if (errors.length > 0) {
+    throw new Error(`lingui: ${errors.map((error) => error.id).join(', ')}`);
+  }
   writeFileSync(compiledPath, source);
 }

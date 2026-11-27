@@ -8,7 +8,7 @@ import { named } from './versions.js';
 await setup();
 
 const runs = 5;
-const kb = (n) => `${(n / 1024).toFixed(0)} kB`;
+const kb = (bytes) => `${(bytes / 1024).toFixed(0)} kB`;
 const median = (xs) => xs.toSorted((a, b) => a - b)[Math.floor(xs.length / 2)];
 const probe = (name) =>
   JSON.parse(
@@ -22,7 +22,7 @@ console.log(`\n## Heap (Node ${process.version}, median of ${runs} fresh process
 console.log('| | loaded | after formatting all 200 |\n|---|---:|---:|');
 for (const name of Object.keys(libraries)) {
   const samples = Array.from({ length: runs }, () => probe(name));
-  const loaded = median(samples.map((s) => s.loaded));
-  const formatted = median(samples.map((s) => s.formatted));
+  const loaded = median(samples.map((sample) => sample.loaded));
+  const formatted = median(samples.map((sample) => sample.formatted));
   console.log(`| ${named(name)} | ${kb(loaded)} | ${kb(formatted)} |`);
 }

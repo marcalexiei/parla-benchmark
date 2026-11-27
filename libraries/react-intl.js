@@ -6,7 +6,7 @@ import { catalogs } from '../fixtures.js';
 const messages = structuredClone(catalogs.icu);
 
 export const create = () => createIntl({ locale: 'en', messages });
-export const formatter = async () => {
+export const formatter = () => {
   const intl = create();
   return (key, params) => intl.formatMessage({ id: key }, params);
 };

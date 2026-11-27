@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import { createInstance } from 'i18next';
 
 import { catalogs } from '../fixtures.js';
 
@@ -15,8 +15,8 @@ export const init = (instance, translation) => {
   return instance;
 };
 
-export const create = () => init(i18next.createInstance(), resources);
-export const formatter = async () => {
-  const n = create();
-  return (key, params) => n.t(key, params);
+export const create = () => init(createInstance(), resources);
+export const formatter = () => {
+  const instance = create();
+  return (key, params) => instance.t(key, params);
 };

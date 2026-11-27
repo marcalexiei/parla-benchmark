@@ -5,7 +5,7 @@ import { cpus } from 'node:os';
 
 import { devDependencies } from './versions.js';
 
-const run = (args) =>
+const run = async (args) =>
   new Promise((resolve, reject) => {
     const child = spawn(args[0], args.slice(1), { stdio: ['inherit', 'pipe', 'inherit'] });
     let out = '';
@@ -13,12 +13,24 @@ const run = (args) =>
       out += chunk;
       process.stdout.write(chunk);
     });
-    child.on('close', (code) => (code === 0 ? resolve(out) : reject(new Error(`${args.join(' ')}: exit ${code}`))));
+    child.on('close', (code) => {
+      if (code === 0) {
+        resolve(out);
+      } else {
+        reject(new Error(`${args.join(' ')}: exit ${code}`));
+      }
+    });
   });
 
-const node = (script) => run([process.execPath, script]);
+const node = async (script) => run([process.execPath, script]);
 const tables = [await node('size.js'), await node('types.js'), await node('memory.js')];
-await run(['node_modules/.bin/vitest', 'bench', '--run', '--reporter=json', '--outputFile.json=.tmp/bench.json']);
+await run([
+  'node_modules/.bin/vitest',
+  'bench',
+  '--run',
+  '--reporter=json',
+  '--outputFile.json=.tmp/bench.json',
+]);
 tables.push(await node('summary.js'));
 
 const now = new Date().toISOString();
@@ -29,15 +41,23 @@ ${now.slice(0, 10)} ${now.slice(11, 16)} UTC, ${cpus()[0].model}, ${process.plat
 
 Versions: ${devDependencies().join(', ')}.
 
-${tables.map((t) => t.trim().replaceAll(/^## /gm, '### ')).join('\n\n')}
+${tables.map((table) => table.trim().replaceAll(/^## /gm, '### ')).join('\n\n')}
 
 <!-- /results -->`;
 
 const readme = readFileSync('README.md', 'utf8');
-const old = readme.match(/<!-- results (\S+) -->\n([\s\S]*?)\n<!-- \/results -->/);
-if (!old) throw new Error('README has no <!-- results --> block');
+const old = /<!-- results (?<id>\S+) -->\n(?<body>[\s\S]*?)\n<!-- \/results -->/.exec(readme);
+if (!old) {
+  throw new Error('README has no <!-- results --> block');
+}
 mkdirSync('results', { recursive: true });
 // wx: never overwrite an archived run.
-writeFileSync(`results/${old[1]}.md`, `# Results ${old[1]}\n${old[2].replaceAll(/^### /gm, '## ')}\n`, { flag: 'wx' });
+writeFileSync(
+  `results/${old.groups.id}.md`,
+  `# Results ${old.groups.id}\n${old.groups.body.replaceAll(/^### /gm, '## ')}\n`,
+  { flag: 'wx' },
+);
 writeFileSync('README.md', readme.replace(old[0], block));
-console.log(`\nArchived results/${old[1]}.md; README has ${id}.`);
+// The tables come out unpadded; `format:check` wants them aligned.
+await run(['node_modules/.bin/oxfmt', 'README.md', `results/${old.groups.id}.md`]);
+console.log(`\nArchived results/${old.groups.id}.md; README has ${id}.`);

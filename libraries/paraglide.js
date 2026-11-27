@@ -8,7 +8,7 @@ export const create = () => {
   setLocale('en', { reload: false });
   return m;
 };
-export const formatter = async () => {
+export const formatter = () => {
   const messages = create();
   return (key, params) => messages[key](params);
 };
