@@ -92,7 +92,10 @@ Versions: @inlang/paraglide-js 3.2.2, @inlang/plugin-message-format 4.6.2, @ling
 - react-intl's cold start defers all parsing to each message's first format.
 - Paraglide has no init step; its real start-up cost is importing its modules.
 - i18next infers params from `as const` resources: 100k type instantiations.
-- react-intl and Lingui type keys only, not params.
+- react-intl types keys only, not params.
+- Lingui types keys only once `Register` is augmented (`messageIds`, as here), else `string`; values
+  are `Record<string, unknown>`. With its macros (`` t`Hi ${name}` ``, `<Trans>`) the source text is
+  the message: no key to type, and tsc never sees the translations.
 - Paraglide's payload holds every locale per message unless built per locale (`experimentalStaticLocale`).
 - Plural syntax differs (`_one` keys, ICU, MF2 selectors, `{{item|items}}`); output is the same.
 - react-intl's runtime includes the ICU parser, which precompiling would drop.
