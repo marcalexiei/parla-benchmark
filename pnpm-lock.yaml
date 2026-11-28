@@ -1218,7 +1218,7 @@ packages:
     os: [win32]
 
   '@parlajs/compiler@file:.packs/parlajs-compiler-0.0.0.tgz':
-    resolution: {integrity: sha512-2C9WCugNAbbAEhSE07OeZdCUl/9yKJmeUmpDoBrGGLregmOVlYyXdyJ2TqUl26DHXCLngYRmwstIKyb7abnOxw==, tarball: file:.packs/parlajs-compiler-0.0.0.tgz}
+    resolution: {integrity: sha512-NIgYXmv8lP+R+kisPNc19jZWRRyO9CnZxMpq7spfDa93x2gIUy05tJZXwdjcXZPNMVNeBoNu8MO3hf1ipmB1hw==, tarball: file:.packs/parlajs-compiler-0.0.0.tgz}
     version: 0.0.0
     engines: {node: ^24 || >=26}
     hasBin: true
@@ -1229,7 +1229,7 @@ packages:
         optional: true
 
   '@parlajs/core@file:.packs/parlajs-core-0.0.0.tgz':
-    resolution: {integrity: sha512-NCR0cvAACJUVEt3socM+ODnueJs5AOCdjoL3azjvLS93QlMyKBDcK+bYjBx4nKtxdurZ/tUiwxQF7zZ0ZLltVQ==, tarball: file:.packs/parlajs-core-0.0.0.tgz}
+    resolution: {integrity: sha512-D+UBCCmJXvaSeDJ7BmEkV6PILJHLpxcW50sUr+SqKC9PvOYCArAYbtHJS426bYHZaFU8MinN/CbZo94SANE8ig==, tarball: file:.packs/parlajs-core-0.0.0.tgz}
     version: 0.0.0
     engines: {node: ^24 || >=26}
 
@@ -1244,7 +1244,7 @@ packages:
     engines: {node: ^24 || >=26}
 
   '@parlajs/react@file:.packs/parlajs-react-0.0.0.tgz':
-    resolution: {integrity: sha512-4ik4XCeTxiOJN++LnZIDsiiG+GiR0LAbHzntHoho2+QKSk49SJQ5uUmtO0TlW++W6EXwkIt6TY8vGS69rBYq+Q==, tarball: file:.packs/parlajs-react-0.0.0.tgz}
+    resolution: {integrity: sha512-wXDIoFZYYRFDFXygNG/yp5SmzkUBZQz13cp8Z5jzjjGLefs17b+224nH8/e3cqi3fHVQjg7Bk6rF1L+lOgfZTw==, tarball: file:.packs/parlajs-react-0.0.0.tgz}
     version: 0.0.0
     engines: {node: ^24 || >=26}
     peerDependencies:
